@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><title>tests</title><pre id="out">running</pre>
+<script type="module">
+import "./store.test.js";
+import "./speech.test.js";
+import { results } from "./harness.js";
+const bad = results.filter(r => !r.ok);
+document.getElementById("out").textContent =
+  results.map(r => (r.ok ? "PASS " : "FAIL ") + r.name + (r.err ? " :: " + r.err : "")).join("\n") +
+  `\n\n${results.length - bad.length}/${results.length} passed`;
+document.title = bad.length ? "FAIL" : "PASS";
+</script>

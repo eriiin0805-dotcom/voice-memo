@@ -1,0 +1,9 @@
+{
+  "name": "音声メモ",
+  "short_name": "音声メモ",
+  "start_url": "./index.html",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "ja"
+}

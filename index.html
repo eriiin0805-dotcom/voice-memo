@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>音声メモ</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <input id="search" type="search" placeholder="メモを検索" aria-label="メモを検索">
+</header>
+<main>
+  <p id="notice" class="notice" hidden></p>
+  <ul id="list" aria-live="polite"></ul>
+  <p id="empty" class="empty" hidden>まだメモはありません。マイクをタップして話してください。</p>
+</main>
+<footer>
+  <div id="capture" hidden>
+    <p id="status" class="status"></p>
+    <textarea id="captureText" rows="4" placeholder="ここに文字が出ます"></textarea>
+    <button id="saveTyped" type="button" hidden>保存</button>
+  </div>
+  <button id="mic" type="button" aria-label="話す"><span id="micIcon">●</span></button>
+  <p id="hint" class="hint">タップして話す</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>e2e</title>
+<link rel="stylesheet" href="../style.css"></head>
+<body>
+<script>
+  window.FAKES = [];
+  window.SpeechRecognition = window.webkitSpeechRecognition = class {
+    constructor() { FAKES.push(this); }
+    start() {}
+    stop() { this.onend && this.onend(); }
+  };
+  localStorage.clear();
+</script>
+<script type="module">
+  const html = await (await fetch("../index.html")).text();
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  for (const el of [...doc.body.children]) if (el.tagName !== "SCRIPT") document.body.append(el);
+  await import("../app.js");
+  window.READY = true;
+</script>
+</body></html>
