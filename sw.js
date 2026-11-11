@@ -1,5 +1,5 @@
 const CACHE = "voice-memo-v1";
-const ASSETS = ["./", "index.html", "style.css", "app.js", "store.js", "speech.js", "manifest.webmanifest"];
+const ASSETS = ["./", "index.html", "style.css", "app.js", "store.js", "speech.js", "backup.js", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
