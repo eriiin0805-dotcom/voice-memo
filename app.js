@@ -6,7 +6,6 @@ import { idbGet, idbSet } from "./backup.js";
 
 const MEMO_KEY = "voice-memo:v1";
 let restored = false;
-let idbCount = "?";
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -45,9 +44,7 @@ function render() {
 
 function mirror() {
   const raw = storage.getItem(MEMO_KEY) || "[]";
-  idbSet("memos", raw)
-    .then(() => { idbCount = JSON.parse(raw).length; updateDiag(false); })
-    .catch(() => { idbCount = "不可"; updateDiag(false); });
+  idbSet("memos", raw).catch(() => {});
 }
 
 async function restoreIfEmpty() {
@@ -59,12 +56,9 @@ async function restoreIfEmpty() {
         notice("バックアップからメモを復元しました");
       }
     }
-    const raw2 = await idbGet("memos");
-    idbCount = raw2 ? JSON.parse(raw2).length : 0;
-  } catch { idbCount = "不可"; }
+  } catch {}
   restored = true;
   render();
-  updateDiag(false);
 }
 
 function renderItem(m) {
@@ -162,21 +156,6 @@ if (supported) {
   els.saveTyped.addEventListener("click", () => saveText(els.text.value));
 }
 
-const diag = document.createElement("p");
-diag.className = "hint";
-els.hint.after(diag);
-let boots = "?";
-function updateDiag(first = true) {
-  if (first) {
-    try {
-      boots = (parseInt(storage.getItem("voice-memo:boots") || "0", 10) || 0) + 1;
-      storage.setItem("voice-memo:boots", String(boots));
-    } catch {}
-  }
-  const n = storage ? loadMemos(storage).length : 0;
-  diag.textContent = `診断v3: 起動${boots}回目 / メモ${n}件 / 予備${idbCount}件 / 保存${storage ? "可" : "不可"}`;
-}
-updateDiag();
 restoreIfEmpty();
 try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch {}
 
