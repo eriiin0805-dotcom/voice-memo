@@ -1,4 +1,4 @@
-const CACHE = "voice-memo-v1";
+const CACHE = "voice-memo-v2";
 const ASSETS = ["./", "index.html", "style.css", "app.js", "store.js", "speech.js", "backup.js", "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -16,7 +16,7 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-cache" })
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(e.request, copy));
