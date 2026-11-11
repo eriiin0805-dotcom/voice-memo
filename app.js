@@ -132,6 +132,21 @@ if (supported) {
   els.saveTyped.addEventListener("click", () => saveText(els.text.value));
 }
 
+const diag = document.createElement("p");
+diag.className = "hint";
+els.hint.after(diag);
+function updateDiag() {
+  let boots = "?";
+  try {
+    boots = (parseInt(storage.getItem("voice-memo:boots") || "0", 10) || 0) + 1;
+    storage.setItem("voice-memo:boots", String(boots));
+  } catch {}
+  const n = storage ? loadMemos(storage).length : 0;
+  diag.textContent = `診断: 起動${boots}回目 / メモ${n}件 / 保存${storage ? "可" : "不可"}`;
+}
+updateDiag();
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch {}
+
 els.search.addEventListener("input", render);
 if (!storage) notice("この環境ではメモを保存できません(プライベートブラウズの可能性)");
 render();
